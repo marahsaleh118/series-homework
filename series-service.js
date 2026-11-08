@@ -1,3 +1,5 @@
+import { title } from "node:process";
+
 //A
 export const getEpisodeTitle = (show, seasonIndex, episodeIndex) =>
     show.seasons[seasonIndex].episodes[episodeIndex].title;
@@ -35,3 +37,29 @@ export const getSeasonsCount = (series) =>
 export const sortByStartYear = (series) =>
     series.toSorted((a,b) => a.startYear - b.startYear);
 
+//C 
+export const renameSeries = (series, id, newTitle) => 
+    series.map(newMovie => 
+        newMovie.id === id ? 
+        {...newMovie, title: newTitle }
+        : newMovie
+    );
+
+export const addSeason = (series, showId, season) => 
+    series.map(newSeason => 
+        newSeason.id === showId
+        ?{...newSeason, seasons: [...newSeason.seasons,season]
+        } :newSeason
+    );
+
+    export const addEpisode = (series, showId, seasonNumber, episode)=> 
+        series.map(newEpisode => 
+            newEpisode.id === showId
+            ?{
+                ...newEpisode, seasons: newEpisode.seasons.map(season =>
+                    season.number === seasonNumber ?{
+                        ...season, episodes: [...season.episodes,episode]
+                    } :season
+                )
+            } :newEpisode 
+        );
